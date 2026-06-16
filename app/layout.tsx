@@ -25,6 +25,18 @@ export const metadata: Metadata = {
   title: "Steelbird | Rugged Luxury Helmets",
   description:
     "Professional-grade motocross helmets engineered for extreme endurance and precision safety.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      {
+        url: "/17014c18-b957-46fd-907e-67431c41a3b0-removebg-preview.png",
+        type: "image/png",
+        sizes: "500x500",
+      },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/17014c18-b957-46fd-907e-67431c41a3b0-removebg-preview.png",
+  },
 };
 
 export default function RootLayout({
