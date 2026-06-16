@@ -1,5 +1,6 @@
 import Link from "next/link";
 import CTAButton from "./CTAButton";
+import FooterNewsletter from "./FooterNewsletter";
 
 const companyLinks = [
   { label: "Profile", href: "#" },
@@ -84,12 +85,7 @@ export default function Footer() {
               <p className="mt-2 font-body text-[14px] leading-relaxed text-on-surface [text-shadow:0_2px_8px_rgba(0,0,0,0.8)]">
                 Get launches and offers in your inbox.
               </p>
-              <Link
-                href="/newsletter"
-                className="cta-button mt-2 inline-flex px-4 py-2 text-[12px]"
-              >
-                Subscribe
-              </Link>
+              <FooterNewsletter />
             </div>
           </div>
         </div>
