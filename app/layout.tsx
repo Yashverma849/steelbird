@@ -37,9 +37,9 @@ export default function RootLayout({
       lang="en"
       className={`${anton.variable} ${hankenGrotesk.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-background text-on-surface">
+      <body className="flex min-h-full w-full min-w-0 flex-col overflow-x-clip bg-background text-on-surface">
         <Navbar />
-        {children}
+        <div className="w-full min-w-0 flex-1">{children}</div>
       </body>
     </html>
   );

@@ -41,8 +41,8 @@ export default function Safety() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="safety" className="py-20 md:py-28">
-      <div className="mx-auto max-w-[1440px] px-4 md:px-16">
+    <section ref={sectionRef} id="safety" className="overflow-hidden py-20 md:py-28">
+      <div className="mx-auto min-w-0 max-w-[1440px] px-4 md:px-16">
         <div className="grid gap-12 md:grid-cols-2 md:gap-20">
           <div>
             <p className="mb-3 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-primary">

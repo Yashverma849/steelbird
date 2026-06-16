@@ -143,11 +143,11 @@ export default function Features() {
     <section
       ref={sectionRef}
       id="technology"
-      className="border-t border-outline/10 bg-surface-container py-20 md:py-28"
+      className="overflow-hidden border-t border-outline/10 bg-surface-container py-20 md:py-28"
     >
       <div
         className={[
-          "mx-auto max-w-[1440px] px-4 md:px-16 transition-all duration-1000 ease-out",
+          "mx-auto min-w-0 max-w-[1440px] px-4 transition-all duration-1000 ease-out md:px-16",
           visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10",
         ].join(" ")}
       >

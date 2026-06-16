@@ -45,9 +45,9 @@ export const helmetProducts: HelmetProduct[] = [
     badge: "new",
     colors: ["#f26422", "#3b82f6", "#84cc16"],
     imageUrls: [
-      "/api/helmet-images/apex-x1-orange",
-      "/api/helmet-images/apex-x1-blue",
-      "/api/helmet-images/apex-x1-green",
+      "/Steelbird%20Apex%20X1/orange%20helmet.png",
+      "/Steelbird%20Apex%20X1/blue%20helmet.png",
+      "/Steelbird%20Apex%20X1/green%20helmet.png",
     ],
     has360View: true,
     category: "Motocross",

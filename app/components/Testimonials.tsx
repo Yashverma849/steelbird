@@ -89,7 +89,7 @@ function IconX() {
 
 function TestimonialCard({ item }: { item: Testimonial }) {
   return (
-    <article className="testimonial-card group relative shrink-0 rounded-xl border border-outline/20 bg-[#181a1f] p-5 transition-[transform,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:scale-[1.02] hover:border-primary/40 hover:shadow-[0_0_0_1px_color-mix(in_srgb,var(--primary-container)_28%,transparent),0_16px_44px_rgb(0_0_0_/_0.45)] md:p-6">
+    <article className="testimonial-card group relative shrink-0 rounded-xl border border-outline/20 bg-[#181a1f] p-5 transition-[transform,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-primary/40 hover:shadow-[0_0_0_1px_color-mix(in_srgb,var(--primary-container)_28%,transparent),0_16px_44px_rgb(0_0_0_/_0.45)] md:p-6 md:hover:-translate-y-1">
       <div className="mb-4 flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
           <div
@@ -238,15 +238,15 @@ export default function Testimonials() {
     <section
       ref={sectionRef}
       id="testimonials"
-      className="border-t border-outline/10 bg-[#0d0e10] py-20 md:py-28"
+      className="overflow-hidden border-t border-outline/10 bg-[#0d0e10] py-20 md:py-28"
     >
-      <div className="mx-auto max-w-[1440px] px-4 md:px-16">
-        <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,420px)_1fr] lg:gap-16 xl:grid-cols-[minmax(0,460px)_1fr] xl:gap-20">
-          <div className="lg:sticky lg:top-28 lg:pt-4">
+      <div className="mx-auto min-w-0 max-w-[1440px] px-4 md:px-16">
+        <div className="grid min-w-0 items-start gap-12 lg:grid-cols-[minmax(0,420px)_minmax(0,1fr)] lg:gap-16 xl:grid-cols-[minmax(0,460px)_minmax(0,1fr)] xl:gap-20">
+          <div className="min-w-0 lg:sticky lg:top-28 lg:pt-4">
             <p className="testimonial-header-item font-mono text-xs font-semibold uppercase tracking-[0.2em] text-outline">
               Community
             </p>
-            <h2 className="testimonial-header-item mt-4 font-body text-3xl font-semibold leading-tight text-on-surface md:text-[2.5rem] md:leading-[1.15]">
+            <h2 className="testimonial-header-item mt-4 font-body text-2xl font-semibold leading-tight text-on-surface sm:text-3xl md:text-[2.5rem] md:leading-[1.15]">
               We believe in the power of riders who trust Steelbird
             </h2>
             <p className="testimonial-header-item mt-5 font-body text-base leading-relaxed text-secondary md:text-[17px]">

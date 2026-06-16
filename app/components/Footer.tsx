@@ -40,7 +40,7 @@ export default function Footer() {
       <div className="absolute inset-0 bg-background/55" aria-hidden="true" />
       <div className="absolute inset-0 bg-gradient-to-t from-background/78 to-background/38" aria-hidden="true" />
 
-      <div className="relative mx-auto max-w-[1440px] px-4 md:px-16">
+      <div className="relative mx-auto min-w-0 max-w-[1440px] px-4 md:px-16">
         <div className="mb-10 grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="p-2">
             <p className="font-mono text-[16px] font-semibold uppercase tracking-[0.14em] text-primary">

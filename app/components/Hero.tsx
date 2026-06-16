@@ -77,11 +77,11 @@ export default function Hero() {
         }}
       >
         <div className="relative flex max-w-3xl flex-col gap-6 md:gap-8">
-          <p className="hero-text-shadow-strong font-mono text-xs font-semibold uppercase tracking-[0.2em] text-primary-container">
+          <p className="hero-text-shadow-strong font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-primary-container sm:text-xs sm:tracking-[0.2em]">
             Est. 1964 — India&apos;s #1 Helmet Brand
           </p>
 
-          <h1 className="hero-text-shadow font-display text-[2rem] uppercase leading-[1.1] tracking-[0.04em] text-on-surface md:text-[5rem] md:leading-[1.1]">
+          <h1 className="hero-text-shadow font-display text-[1.75rem] uppercase leading-[1.1] tracking-[0.03em] text-on-surface sm:text-[2rem] md:text-[4rem] lg:text-[5rem] md:leading-[1.1]">
             Built for the
             <br />
             <span className="text-primary-container">Extreme</span>

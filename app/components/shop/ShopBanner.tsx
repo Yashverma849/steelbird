@@ -1,11 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
+import gsap from "gsap";
 
 const FULL_TEXT = "Welcome to zoo of helmets";
 
 export default function ShopBanner() {
+  const imageRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLParagraphElement>(null);
   const [scrollY, setScrollY] = useState(0);
   const [displayText, setDisplayText] = useState("");
 
@@ -38,6 +41,27 @@ export default function ShopBanner() {
     };
   }, []);
 
+  useLayoutEffect(() => {
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) return;
+
+    const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+    if (imageRef.current) {
+      gsap.set(imageRef.current, { scale: 1.12, opacity: 0 });
+      timeline.to(imageRef.current, { scale: 1, opacity: 1, duration: 1.2 }, 0);
+    }
+
+    if (textRef.current) {
+      gsap.set(textRef.current, { opacity: 0, y: 28 });
+      timeline.to(textRef.current, { opacity: 1, y: 0, duration: 0.9 }, 0.25);
+    }
+
+    return () => {
+      timeline.kill();
+    };
+  }, []);
+
   const bannerHeightLimit = 400;
   const rawProgress = Math.min(scrollY / bannerHeightLimit, 1);
   const opacity = Math.max(0, 1 - rawProgress);
@@ -61,13 +85,15 @@ export default function ShopBanner() {
           willChange: "transform",
         }}
       >
-        <Image
-          src="/multiple%20helmets.png"
-          alt="Steelbird Helmets Collection"
-          fill
-          priority
-          className="object-cover"
-        />
+        <div ref={imageRef} className="absolute inset-0 origin-center">
+          <Image
+            src="/multiple%20helmets.png"
+            alt="Steelbird Helmets Collection"
+            fill
+            priority
+            className="object-cover"
+          />
+        </div>
       </div>
 
       <div
@@ -77,7 +103,10 @@ export default function ShopBanner() {
           willChange: "transform",
         }}
       >
-        <p className="hero-text-shadow-strong select-none text-center font-display text-3xl uppercase tracking-[0.02em] text-on-surface md:text-5xl">
+        <p
+          ref={textRef}
+          className="hero-text-shadow-strong select-none text-center font-display text-3xl uppercase tracking-[0.02em] text-on-surface md:text-5xl"
+        >
           {displayText}
           <span
             className="ml-2 inline-block h-[1em] w-2 animate-pulse bg-primary-container align-middle"

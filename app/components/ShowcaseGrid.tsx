@@ -77,10 +77,13 @@ export default function ShowcaseGrid() {
       });
 
       cards.forEach((card, index) => {
-        const state = enterStates[index] ?? { x: index % 2 === 0 ? -180 : 180 };
+        const isMobile = window.matchMedia("(max-width: 767px)").matches;
+        const base = enterStates[index] ?? { x: index % 2 === 0 ? -180 : 180 };
+        const stateX = isMobile ? (index % 2 === 0 ? -48 : 48) : base.x;
+
         assembleTl.fromTo(
           card,
-          { opacity: 0, x: state.x, scale: 0.98 },
+          { opacity: 0, x: stateX, scale: 0.98 },
           {
             opacity: 1,
             x: 0,
@@ -95,13 +98,12 @@ export default function ShowcaseGrid() {
 
     return () => {
       mm.revert();
-      ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, []);
 
   return (
-    <section ref={sectionRef} className="border-t border-outline/10 bg-background py-20 md:py-28">
-      <div className="mx-auto max-w-[1440px] px-4 md:px-16">
+    <section ref={sectionRef} className="overflow-hidden border-t border-outline/10 bg-background py-20 md:py-28">
+      <div className="mx-auto min-w-0 max-w-[1440px] px-4 md:px-16">
         <div className="mb-10 md:mb-12">
           <p className="mb-3 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-primary">
             Product Showcase
@@ -111,12 +113,12 @@ export default function ShowcaseGrid() {
           </h2>
         </div>
 
-        <div className="showcase-grid grid auto-rows-[180px] gap-3 md:grid-cols-6 md:auto-rows-[120px]">
+        <div className="showcase-grid grid min-w-0 auto-rows-[160px] gap-3 overflow-hidden sm:auto-rows-[180px] md:grid-cols-6 md:auto-rows-[120px]">
           {showcaseItems.map((item, index) => (
             <article
               key={item.title}
               data-speed={16 + (index % 3) * 8}
-              className={`showcase-card group relative overflow-hidden border border-outline/20 bg-surface-container opacity-0 transition-transform duration-300 hover:scale-[1.02] hover:border-primary/40 ${item.span}`}
+              className={`showcase-card group relative min-w-0 overflow-hidden border border-outline/20 bg-surface-container opacity-0 transition-transform duration-300 hover:border-primary/40 md:hover:scale-[1.02] ${item.span}`}
             >
               <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-[1.06]" style={{ backgroundImage: `url('${item.image}')` }} />
               <div
@@ -124,7 +126,7 @@ export default function ShowcaseGrid() {
                 aria-hidden="true"
               />
               <div className="relative z-10 h-full w-full">
-                <p className="absolute bottom-5 left-5 rounded bg-background/45 px-3 py-1.5 font-display text-xl leading-none tracking-[0.04em] text-on-surface [text-shadow:0_2px_10px_rgba(0,0,0,0.8)] backdrop-blur-[1px] md:text-2xl">
+                <p className="absolute bottom-4 left-4 right-4 rounded bg-background/45 px-3 py-1.5 font-display text-lg leading-none tracking-[0.04em] text-on-surface [text-shadow:0_2px_10px_rgba(0,0,0,0.8)] backdrop-blur-[1px] sm:text-xl md:text-2xl">
                   {item.title}
                 </p>
               </div>

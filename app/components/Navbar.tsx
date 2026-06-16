@@ -40,39 +40,18 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50">
-      <nav className="relative mx-auto flex max-w-[1440px] items-center justify-between px-4 py-5 md:px-16">
-        <Link
-          href="/"
-          className={`font-display text-xl uppercase tracking-[0.04em] text-on-surface transition-all duration-500 md:text-2xl ${
-            isScrolled ? "pointer-events-none opacity-0 -translate-x-4" : "opacity-100"
-          }`}
-        >
-          Steelbird
-        </Link>
+    <header className="fixed top-0 left-0 right-0 z-50 w-full overflow-x-clip">
+      <nav className="relative mx-auto flex max-w-[1440px] items-center justify-between gap-3 px-4 py-4 md:px-8 md:py-5 lg:px-16">
+        <div className="flex min-w-0 items-center gap-2">
+          <Link
+            href="/"
+            className={`truncate font-display text-lg uppercase tracking-[0.04em] text-on-surface transition-all duration-500 sm:text-xl lg:text-2xl ${
+              isScrolled ? "pointer-events-none opacity-0" : "opacity-100"
+            }`}
+          >
+            Steelbird
+          </Link>
 
-        <ul
-          className={`hidden items-center gap-8 transition-all duration-500 md:flex ${
-            isScrolled ? "pointer-events-none opacity-0 -translate-y-2" : "opacity-100"
-          }`}
-        >
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className="font-mono text-xs font-semibold uppercase tracking-wider text-secondary transition-colors hover:text-primary"
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-
-        <div
-          className={`absolute left-4 z-20 md:left-16 ${
-            isScrolled ? "pointer-events-auto" : "pointer-events-none"
-          }`}
-        >
           <button
             type="button"
             aria-label="Toggle navigation menu"
@@ -81,41 +60,41 @@ export default function Navbar() {
               setMenuOpen((prev) => !prev);
               setIsSidebarIconFlipped((prev) => !prev);
             }}
-            className={`group flex h-20 w-20 items-center justify-center bg-transparent text-on-surface transition-all duration-500 ${
-              isScrolled ? "pointer-events-auto opacity-100" : "opacity-0 md:opacity-0"
-            }`}
+            className="group flex h-12 w-12 shrink-0 items-center justify-center bg-transparent text-on-surface lg:hidden"
           >
             <Image
               src="/Gemini_Generated_Image_2bjo6t2bjo6t2bjo-removebg-preview.png"
-              alt="Sidebar menu symbol"
-              width={64}
-              height={64}
-              className="h-16 w-16 object-contain brightness-125 contrast-125 drop-shadow-[0_0_12px_rgba(255,255,255,0.45)] transition-transform duration-500 group-hover:scale-110"
+              alt=""
+              width={40}
+              height={40}
+              className="h-10 w-10 object-contain brightness-125 contrast-125"
               style={{
                 transform: isSidebarIconFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
                 transformStyle: "preserve-3d",
               }}
             />
           </button>
-
-          {menuOpen && isScrolled && (
-            <div className="absolute left-0 top-16 w-72 rounded-md border border-outline/20 bg-background/95 p-4 shadow-[0_10px_30px_rgb(0_0_0_/_0.45)] backdrop-blur-md">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="block rounded px-2 py-2.5 font-body text-[1.5rem] font-semibold uppercase tracking-[0.1em] leading-none text-on-surface transition-colors hover:text-primary"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-          )}
         </div>
 
-        <div className="relative z-20">
-          <CTAButton href="/helmets" className="px-5 py-2.5 text-sm">
+        <ul
+          className={`hidden min-w-0 items-center gap-4 lg:flex xl:gap-6 ${
+            isScrolled ? "pointer-events-none opacity-0" : "opacity-100"
+          } transition-opacity duration-500`}
+        >
+          {navLinks.map((link) => (
+            <li key={link.href} className="shrink-0">
+              <Link
+                href={link.href}
+                className="font-mono text-[10px] font-semibold uppercase tracking-wider text-secondary transition-colors hover:text-primary xl:text-xs"
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <div className="relative z-20 shrink-0">
+          <CTAButton href="/helmets" className="px-4 py-2 text-xs sm:px-5 sm:py-2.5 sm:text-sm">
             Shop Now
           </CTAButton>
         </div>
@@ -134,10 +113,25 @@ export default function Navbar() {
             alt="Steelbird symbol"
             width={54}
             height={54}
-            className="h-10 w-10 object-contain md:h-12 md:w-12"
+            className="h-9 w-9 object-contain md:h-12 md:w-12"
             priority
           />
         </Link>
+
+        {menuOpen && (
+          <div className="absolute left-4 top-14 z-50 w-[min(18rem,calc(100vw-2rem))] rounded-md border border-outline/20 bg-background/95 p-4 shadow-[0_10px_30px_rgb(0_0_0_/_0.45)] backdrop-blur-md lg:hidden">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+                className="block rounded px-2 py-2.5 font-body text-base font-semibold uppercase tracking-[0.08em] text-on-surface transition-colors hover:text-primary"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        )}
       </nav>
     </header>
   );

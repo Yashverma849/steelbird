@@ -67,7 +67,7 @@ export default function ProductCard({ product }: { product: HelmetProduct }) {
 
   return (
     <article
-      className="ghost-border group flex flex-col overflow-hidden rounded-xl bg-surface-container transition-all duration-300 hover:scale-[1.02] hover:border-primary/30 hover:bg-surface-container-high"
+      className="shop-product-card ghost-border group flex flex-col overflow-hidden rounded-xl bg-surface-container transition-all duration-300 hover:scale-[1.02] hover:border-primary/30 hover:bg-surface-container-high"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => {
         setIsHovered(false);
