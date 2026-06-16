@@ -27,7 +27,7 @@ export default function Footer() {
       <div
         className="absolute inset-0 bg-cover opacity-55"
         style={{
-          backgroundImage: "url('/api/footer-background')",
+          backgroundImage: "url('/footer-background.png')",
           backgroundPosition: "center 30%",
           filter: "grayscale(1) brightness(0.82) contrast(1.05)",
         }}

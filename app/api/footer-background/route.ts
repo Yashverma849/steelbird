@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
+import path from "node:path";
 
-const FOOTER_BG_PATH =
-  "C:/Users/Yash/.cursor/projects/c-Users-Yash-Desktop-steelbird-landing-page/assets/c__Users_Yash_AppData_Roaming_Cursor_User_workspaceStorage_80ca79dd2b96f11608c473dfa597c2dc_images_screen-c22df5d2-24ff-44ec-8f85-6252b6cb5de1.png";
+const FOOTER_BG_PATH = path.join(process.cwd(), "public", "footer-background.png");
 
 export async function GET() {
   try {
@@ -9,10 +9,10 @@ export async function GET() {
     return new Response(file, {
       headers: {
         "Content-Type": "image/png",
-        "Cache-Control": "public, max-age=3600",
+        "Cache-Control": "public, max-age=31536000, immutable",
       },
     });
   } catch {
-    return new Response("Unable to load footer background image", { status: 500 });
+    return new Response("Unable to load footer background image", { status: 404 });
   }
 }
