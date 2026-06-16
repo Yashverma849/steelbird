@@ -1,0 +1,166 @@
+@import "tailwindcss";
+
+:root {
+  --background: #131313;
+  --foreground: #e5e2e1;
+
+  --surface: #131313;
+  --surface-container: #201f1f;
+  --surface-container-high: #2a2a2a;
+  --on-surface: #e5e2e1;
+  --on-surface-variant: #e1bfb3;
+  --outline: #a88a7f;
+  --outline-variant: #594138;
+  --primary: #ffb599;
+  --on-primary: #5a1c00;
+  --primary-container: #f26422;
+  --on-primary-container: #4f1700;
+  --secondary: #c8c6c5;
+  --secondary-container: #474746;
+  --tertiary: #c6c6cb;
+  --surface-variant: #353534;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+  --color-primary: var(--primary);
+  --color-on-primary: var(--on-primary);
+  --color-primary-container: var(--primary-container);
+  --color-on-primary-container: var(--on-primary-container);
+  --color-secondary: var(--secondary);
+  --color-secondary-container: var(--secondary-container);
+  --color-tertiary: var(--tertiary);
+  --color-surface-variant: var(--surface-variant);
+
+  --font-display: var(--font-anton);
+  --font-body: var(--font-hanken);
+  --font-mono: var(--font-jetbrains);
+
+  --radius-sm: 0.125rem;
+  --radius-DEFAULT: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-hanken), system-ui, sans-serif;
+}
+
+.ghost-border {
+  border: 1px solid color-mix(in srgb, var(--outline) 20%, transparent);
+}
+
+.metallic-glow {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--primary) 30%, transparent);
+}
+
+.hero-text-shadow {
+  text-shadow:
+    0 1px 2px rgb(0 0 0 / 0.9),
+    0 2px 10px rgb(0 0 0 / 0.75),
+    0 0 32px rgb(0 0 0 / 0.5);
+}
+
+.hero-text-shadow-strong {
+  text-shadow:
+    0 1px 3px rgb(0 0 0 / 1),
+    0 3px 16px rgb(0 0 0 / 0.85),
+    0 0 40px rgb(0 0 0 / 0.6);
+}
+
+.hero-content-scrim {
+  background: linear-gradient(
+    90deg,
+    rgb(19 19 19 / 0.92) 0%,
+    rgb(19 19 19 / 0.72) 45%,
+    rgb(19 19 19 / 0.25) 75%,
+    transparent 100%
+  );
+}
+
+.shop-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--surface-container-high);
+  outline: none;
+}
+
+.shop-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--primary-container);
+  cursor: pointer;
+  border: 2px solid var(--on-surface);
+}
+
+.shop-range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--primary-container);
+  cursor: pointer;
+  border: 2px solid var(--on-surface);
+}
+
+.cta-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--primary-container);
+  border-radius: 0.25rem;
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+  font-family: var(--font-anton), system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.15s ease,
+    box-shadow 0.25s ease;
+}
+
+.cta-button:hover:not(:disabled) {
+  background: transparent;
+  color: var(--primary-container);
+  border-color: var(--primary-container);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary-container) 25%, transparent);
+}
+
+.cta-button-pressed {
+  transform: scale(0.96);
+}
+
+.cta-button-ghost {
+  background: transparent;
+  color: var(--on-surface);
+  border-color: color-mix(in srgb, var(--on-surface) 40%, transparent);
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.cta-button-ghost:hover:not(:disabled) {
+  background: transparent;
+  color: var(--primary-container);
+  border-color: var(--primary-container);
+}
