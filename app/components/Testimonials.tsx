@@ -134,21 +134,90 @@ function ScrollingColumn({
   direction: "up" | "down";
   className?: string;
 }) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const tweenRef = useRef<gsap.core.Tween | null>(null);
+  const pointerInsideRef = useRef(false);
+  const userPausedRef = useRef(false);
+  const resumeTimerRef = useRef<number | null>(null);
+  const touchStartYRef = useRef(0);
+  const touchStartTrackYRef = useRef(0);
+
   const loopItems = [...items, ...items];
+
+  const clearResumeTimer = () => {
+    if (resumeTimerRef.current !== null) {
+      window.clearTimeout(resumeTimerRef.current);
+      resumeTimerRef.current = null;
+    }
+  };
+
+  const resumeTween = () => {
+    tweenRef.current?.resume();
+  };
+
+  const pauseTween = () => {
+    tweenRef.current?.pause();
+  };
+
+  const releaseInteraction = () => {
+    pointerInsideRef.current = false;
+    userPausedRef.current = false;
+    clearResumeTimer();
+    resumeTween();
+  };
+
+  const pauseForPointer = () => {
+    pointerInsideRef.current = true;
+    pauseTween();
+  };
+
+  const scheduleWheelIdleResume = () => {
+    clearResumeTimer();
+    resumeTimerRef.current = window.setTimeout(() => {
+      resumeTimerRef.current = null;
+      userPausedRef.current = false;
+      if (!pointerInsideRef.current) {
+        resumeTween();
+      }
+    }, 500);
+  };
+
+  const pauseForWheel = () => {
+    userPausedRef.current = true;
+    pauseTween();
+    scheduleWheelIdleResume();
+  };
 
   useEffect(() => {
     const track = trackRef.current;
-    if (!track) return;
+    const container = containerRef.current;
+    if (!track || !container) return;
 
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) return;
 
     let tween: gsap.core.Tween | null = null;
 
+    const getLoopHeight = () => track.scrollHeight / 2;
+
+    const wrapY = (y: number) => {
+      const loopHeight = getLoopHeight();
+      if (loopHeight <= 0) return y;
+
+      if (direction === "up") {
+        while (y <= -loopHeight) y += loopHeight;
+        while (y > 0) y -= loopHeight;
+      } else {
+        while (y >= 0) y -= loopHeight;
+        while (y < -loopHeight) y += loopHeight;
+      }
+
+      return y;
+    };
+
     const startLoop = () => {
-      const loopHeight = track.scrollHeight / 2;
+      const loopHeight = getLoopHeight();
       if (loopHeight <= 0) return;
 
       const duration = loopHeight / 28;
@@ -176,23 +245,65 @@ function ScrollingColumn({
 
     const frame = window.requestAnimationFrame(startLoop);
 
+    const handleWheel = (event: WheelEvent) => {
+      if (Math.abs(event.deltaY) < 2) return;
+
+      event.preventDefault();
+      pauseForWheel();
+      const currentY = gsap.getProperty(track, "y") as number;
+      gsap.set(track, { y: wrapY(currentY - event.deltaY) });
+    };
+
+    const handleTouchStart = (event: TouchEvent) => {
+      pauseForWheel();
+      touchStartYRef.current = event.touches[0]?.clientY ?? 0;
+      touchStartTrackYRef.current = gsap.getProperty(track, "y") as number;
+    };
+
+    const handleTouchMove = (event: TouchEvent) => {
+      event.preventDefault();
+      pauseForWheel();
+      const currentY = event.touches[0]?.clientY ?? touchStartYRef.current;
+      const delta = currentY - touchStartYRef.current;
+      gsap.set(track, {
+        y: wrapY(touchStartTrackYRef.current + delta),
+      });
+    };
+
+    const handleTouchEnd = () => {
+      if (!pointerInsideRef.current) {
+        releaseInteraction();
+        return;
+      }
+      scheduleWheelIdleResume();
+    };
+
+    container.addEventListener("wheel", handleWheel, { passive: false });
+    container.addEventListener("touchstart", handleTouchStart, { passive: true });
+    container.addEventListener("touchmove", handleTouchMove, { passive: false });
+    container.addEventListener("touchend", handleTouchEnd, { passive: true });
+    container.addEventListener("touchcancel", handleTouchEnd, { passive: true });
+
     return () => {
       window.cancelAnimationFrame(frame);
       tween?.kill();
       tweenRef.current = null;
+      clearResumeTimer();
+      container.removeEventListener("wheel", handleWheel);
+      container.removeEventListener("touchstart", handleTouchStart);
+      container.removeEventListener("touchmove", handleTouchMove);
+      container.removeEventListener("touchend", handleTouchEnd);
+      container.removeEventListener("touchcancel", handleTouchEnd);
     };
   }, [direction, items]);
 
-  const pause = () => tweenRef.current?.pause();
-  const resume = () => tweenRef.current?.resume();
-
   return (
     <div
+      ref={containerRef}
       className={`relative h-full overflow-hidden ${className}`}
-      onMouseEnter={pause}
-      onFocus={pause}
-      onMouseLeave={resume}
-      onBlur={resume}
+      onPointerEnter={pauseForPointer}
+      onPointerLeave={releaseInteraction}
+      aria-label="Testimonials marquee. Scroll with wheel or drag to read."
     >
       <div ref={trackRef} className="flex flex-col gap-4 will-change-transform">
         {loopItems.map((item, index) => (
@@ -263,11 +374,11 @@ export default function Testimonials() {
 
           <div className="testimonial-marquee relative h-[520px] overflow-hidden sm:h-[600px] md:h-[680px]">
             <div
-              className="pointer-events-none absolute inset-x-0 top-0 z-10 h-20 bg-gradient-to-b from-[#0d0e10] to-transparent"
+              className="pointer-events-none absolute inset-x-0 top-0 z-10 h-16 bg-gradient-to-b from-[#0d0e10] via-[#0d0e10]/80 to-transparent"
               aria-hidden="true"
             />
             <div
-              className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-20 bg-gradient-to-t from-[#0d0e10] to-transparent"
+              className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 bg-gradient-to-t from-[#0d0e10] via-[#0d0e10]/80 to-transparent"
               aria-hidden="true"
             />
 

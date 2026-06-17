@@ -1,14 +1,28 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 
 export default function NewsletterForm() {
+  const [mounted, setMounted] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSubmitted(true);
   };
+
+  if (!mounted) {
+    return (
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch" aria-hidden="true">
+        <div className="h-[50px] w-full flex-1 rounded border border-outline/40 bg-surface-container" />
+        <div className="cta-button h-[50px] shrink-0 px-8 py-3 text-sm opacity-0 sm:w-[148px]" />
+      </div>
+    );
+  }
 
   if (submitted) {
     return (
@@ -34,6 +48,7 @@ export default function NewsletterForm() {
         type="email"
         required
         placeholder="Enter your email address"
+        autoComplete="email"
         className="w-full flex-1 rounded border border-outline/40 bg-surface-container px-4 py-3 font-body text-base text-on-surface outline-none transition-colors placeholder:text-outline focus:border-primary"
       />
       <button type="submit" className="cta-button shrink-0 px-8 py-3 text-sm">
